@@ -3,8 +3,9 @@
 ![alt text](https://forthebadge.com/images/badges/certified-elijah-wood.svg "Certified by Elijah Wood")
 ![alt text](https://forthebadge.com/images/badges/built-with-grammas-recipe.svg "Built with Gramma's recipe")
 
-A Todo List app made with React JS (Front End, on Netlify) and Express JS (Back End, on Heroku).
+A Todo List app made with React JS (Front End) and Express JS (Back End). I've used Express, Body Parser and Mongoose packages.
 You can find the app (Front End) here : https://github.com/stevenpersia/todo-list-react
+Be carefull, Back End is running on Heroku (dyno sleep mode)
 
 ---
 
