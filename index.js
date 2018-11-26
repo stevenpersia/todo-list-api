@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 mongoose.connect(
-	'mongodb://localhost:27017/todo',
+	process.env.MONGODB_KEY || 'mongodb://localhost:27017/todolist',
 	{ useNewUrlParser: true }
 );
 
@@ -21,13 +21,15 @@ const Task = mongoose.model('Task', {
 
 /* TODO LIST */
 app.get('/', function(req, res) {
-	Task.find().exec(function(err, tasks) {
-		if (err) {
-			res.status(400).json({ error: 'Something went wrong :(' });
-		} else {
-			res.status(200).json(tasks);
-		}
-	});
+	Task.find()
+		.sort({ done: 1 })
+		.exec(function(err, tasks) {
+			if (err) {
+				res.status(400).json({ error: 'Something went wrong :(' });
+			} else {
+				res.status(200).json(tasks);
+			}
+		});
 });
 
 /* CREATE */
@@ -45,21 +47,21 @@ app.post('/create', function(req, res) {
 
 /* UPDATE */
 app.post('/update', function(req, res) {
-	Task.findByIdAndUpdate(req.body._id, req.body, { new: true }).exec(function(
-		err,
-		task
-	) {
+	Task.findByIdAndUpdate({ _id: req.body._id }).exec(function(err, task) {
 		if (err) {
 			res.status(400).json({ error: 'Something went wrong :(' });
 		} else {
-			res.status(200).json(task);
+			task.done = !task.done;
+			task.save(function(err, taskUpdated) {
+				res.status(200).json(task);
+			});
 		}
 	});
 });
 
 /* DELETE */
 app.post('/delete', function(req, res) {
-	Task.findByIdAndRemove(req.body._id).exec(function(err, task) {
+	Task.findByIdAndRemove({ _id: req.body._id }).exec(function(err, task) {
 		if (err) {
 			res.status(400).json({ error: 'Something went wrong :(' });
 		} else {
@@ -70,5 +72,5 @@ app.post('/delete', function(req, res) {
 	});
 });
 
-/* LAUNCHE SERVER */
-app.listen(3000);
+/* LAUNCH SERVER */
+app.listen(process.env.PORT || 3000);
