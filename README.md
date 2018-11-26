@@ -5,7 +5,7 @@
 
 A Todo List app made with React JS (Front End) and Express JS (Back End). I've used Express, Body Parser and Mongoose packages.
 You can find the app (Front End) here : https://github.com/stevenpersia/todo-list-react.
-Be careful, Back End is running on Heroku (dyno sleep mode)
+Be careful, Back End is running on Heroku (dyno sleep mode).
 
 ---
 
